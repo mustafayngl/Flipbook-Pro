@@ -1,50 +1,45 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import PdfViewer from './components/PdfViewer';
+import './app.css';
 
-function Hello() {
+function App() {
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.type === 'application/pdf') {
+        const fileUrl = URL.createObjectURL(file);
+        setPdfUrl(fileUrl);
+        setFileError(null);
+      } else {
+        setFileError('Please upload a valid PDF file.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (pdfUrl) {
+        URL.revokeObjectURL(pdfUrl);
+      }
+    };
+  }, [pdfUrl]);
+
   return (
     <div>
-      <div className="Hello">
-        <img width="200" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="folded hands">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
+      {!pdfUrl ? (
+        <div className="file-upload-container">
+          <input type="file" accept=".pdf" onChange={handleFileChange} />
+          {fileError && <p className="error-message">{fileError}</p>}
+          <p>Please upload a PDF file to start viewing.</p>
+        </div>
+      ) : (
+        <PdfViewer pdfUrl={pdfUrl} />
+      )}
     </div>
   );
 }
 
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
-  );
-}
+export default App;

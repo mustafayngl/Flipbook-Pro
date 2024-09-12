@@ -2,21 +2,27 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
-body {
+
+ body {
   position: relative;
   color: white;
   height: 100vh;
+  margin: 0;
   background: linear-gradient(
     200.96deg,
     #fedc2a -29.09%,
     #dd5789 51.77%,
     #7a2c9e 129.35%
   );
-  font-family: sans-serif;
-  overflow-y: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 button {
@@ -31,6 +37,7 @@ button {
   transition: all ease-in 0.1s;
   cursor: pointer;
   opacity: 0.9;
+  font-family: inherit;
 }
 
 button:hover {
@@ -47,6 +54,7 @@ a {
   height: fit-content;
   width: fit-content;
   margin: 10px;
+  color: inherit;
 }
 
 a:hover {
@@ -59,4 +67,67 @@ a:hover {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+}
+
+
+.fixed-controls {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.fixed-controls button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.fixed-controls button:hover {
+  background-color: #2980b9;
+}
+
+.page-container {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.zoomable-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.pagination button:hover {
+  background-color: #bdc3c7;
 }
